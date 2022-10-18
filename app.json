@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "Teste-pratico-Lista-de-compras",
+    "slug": "Teste-pratico-Lista-de-compras",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
