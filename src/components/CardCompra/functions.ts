@@ -1,8 +1,9 @@
 import { listaProps } from "../../screens/Lista";
-import { guardaEAtualizaLista } from "../../services";
+import { guardaEAtualizaLista, guardaEAtualizaQuantidadeFeita } from "../../services";
 
 interface FuncoesCardCompraProps {
     setQuantidadeFeitos: React.Dispatch<React.SetStateAction<number>>;
+    quantidadeFeitos:number;
     setFeito: React.Dispatch<React.SetStateAction<boolean>>;
     lista:listaProps[];
     setLista: React.Dispatch<React.SetStateAction<listaProps[]>>;
@@ -11,6 +12,7 @@ interface FuncoesCardCompraProps {
 
 export const FuncoesCardCompra = ({
     setQuantidadeFeitos,
+    quantidadeFeitos,
     setFeito,
     lista,
     setLista,
@@ -19,18 +21,22 @@ export const FuncoesCardCompra = ({
 
     function marcaFeito (index: number) {
         setQuantidadeFeitos((quantidade:number)=>quantidade+1);
+        guardaEAtualizaQuantidadeFeita(quantidadeFeitos+1);
         let novaLista = lista;
         novaLista[index].feito = true;
         setFeito(true);
         setLista(novaLista);
+        guardaEAtualizaLista(novaLista);
     }
 
     function marcaDesfeito (index: number) {
         setQuantidadeFeitos((quantidade:number)=>quantidade-1);
+        guardaEAtualizaQuantidadeFeita(quantidadeFeitos-1);
         let novaLista = lista;
         novaLista[index].feito = false;
         setFeito(false);     
         setLista(novaLista);
+        guardaEAtualizaLista(novaLista);
     }
 
     function excluiDaLista(id:string) {

@@ -19,3 +19,25 @@ export async function guardaEAtualizaLista(lista:listaProps[]) {
         // saving error
     }
 }
+
+export async function guardaEAtualizaQuantidadeFeita(quantidade:number) {
+    try {
+        await AsyncStorage.setItem('@quantidade', quantidade.toString())
+      } catch (e) {
+        // saving error
+      }
+}
+
+export async function pegaQuantidadeFeita(setQuantidadeFeitos: React.Dispatch<React.SetStateAction<number>>) {
+    try {
+        const value = await AsyncStorage.getItem('@quantidade')
+        
+        if(value !== null) {
+          setQuantidadeFeitos(Number(value))
+        }else{
+            setQuantidadeFeitos(0)
+        }
+      } catch(e) {
+        // error reading value
+      }
+}

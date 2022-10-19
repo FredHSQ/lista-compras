@@ -16,14 +16,15 @@ interface CardCompraProps {
     index:number;
     setLista: React.Dispatch<React.SetStateAction<listaProps[]>>;
     setQuantidadeFeitos: React.Dispatch<React.SetStateAction<number>>;
+    quantidadeFeitos:number;
 }
 
-export const CardCompra = ({ item, lista, setLista, index,setQuantidadeFeitos }: CardCompraProps) => {
+export const CardCompra = ({ item, lista, setLista, index,setQuantidadeFeitos, quantidadeFeitos }: CardCompraProps) => {
 
     const [feito, setFeito] = useState<boolean>(item.feito);
     const [modal, setModal] = useState<boolean>(false);
 
-    const { excluiDaLista, marcaDesfeito, marcaFeito,editaTexto } = FuncoesCardCompra({setQuantidadeFeitos, setFeito, setLista, lista, feito})
+    const { excluiDaLista, marcaDesfeito, marcaFeito,editaTexto } = FuncoesCardCompra({setQuantidadeFeitos, setFeito, setLista, lista, feito, quantidadeFeitos})
 
     return (
         <Container ativo={feito}>

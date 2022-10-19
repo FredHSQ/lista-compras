@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react"
-import { Text, FlatList, BackHandler, Alert } from "react-native";
-import { Container } from "./styles"
+import { FlatList, BackHandler, Alert } from "react-native";
+import { Container, TextoEmpty } from "./styles"
 
 import { AddFooter } from "../../components/AddFooter";
 import { CardCompra } from "../../components/CardCompra";
 import { Header } from "../../components/Header"
-import theme from "../../theme";
-import { guardaEAtualizaLista, pegaLista } from "../../services";
+import { guardaEAtualizaLista, pegaLista, pegaQuantidadeFeita } from "../../services";
 
 export interface listaProps {
     id: string,
@@ -19,11 +18,9 @@ export const Lista = () => {
     const [lista, setLista] = useState<listaProps[]>([]);
     const [quantidadeFeitos, setQuantidadeFeitos] = useState<number>(0);
 
-    
-
-
     useEffect(() => {
         pegaLista(setLista)
+        pegaQuantidadeFeita(setQuantidadeFeitos)
 
         const sair = () => {
             Alert.alert(
@@ -51,23 +48,35 @@ export const Lista = () => {
         return () => backHandler.remove();
     }, []);
 
-    useEffect(() => {        
+    useEffect(() => {
         guardaEAtualizaLista(lista);
     }, [lista])
 
     return (
         <Container>
-            <Header quantidadeFeita={quantidadeFeitos} tamanhoLista={lista.length} />
+            <Header
+                quantidadeFeita={quantidadeFeitos ? quantidadeFeitos : 0}
+                tamanhoLista={lista.length}
+            />
             <FlatList
                 data={lista}
                 keyExtractor={(item) => item.id}
                 renderItem={({ item, index }) => {
-                    return <CardCompra lista={lista} index={index} setLista={setLista} item={item} setQuantidadeFeitos={setQuantidadeFeitos} />
+                    return (
+                        <CardCompra
+                            lista={lista}
+                            index={index}
+                            setLista={setLista}
+                            item={item}
+                            setQuantidadeFeitos={setQuantidadeFeitos}
+                            quantidadeFeitos={quantidadeFeitos}
+                        />
+                    )
                 }}
                 ListEmptyComponent={() =>
-                    <Text style={{ alignSelf: "center", marginTop: 10, color: theme.COLORS.CINZA }}>
+                    <TextoEmpty>
                         Nenhum item na lista
-                    </Text>
+                    </TextoEmpty>
                 }
             />
             <AddFooter lista={lista} setLista={setLista} />
